@@ -15,6 +15,11 @@ const UserSchema = {
     type: DataTypes.STRING,
     unique: true,
   },
+  email: {
+    allowNull: false,
+    type: DataTypes.STRING,
+    unique: true,
+  },
   password: {
     allowNull: false,
     type: DataTypes.STRING,
@@ -27,7 +32,16 @@ const UserSchema = {
 };
 
 class User extends Model {
-  static associate(models) {}
+  static associate(models) {
+    this.hasOne(models.Patient, {
+      as: 'patient',
+      foreignKey: 'userId',
+    });
+    this.hasOne(models.Therapist, {
+      as: 'therapist',
+      foreignKey: 'userId',
+    });
+  }
 
   static config(sequelize) {
     return {
